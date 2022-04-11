@@ -16,8 +16,7 @@ const cities = document.querySelectorAll('.city');
 
 
 // Por defecto la cuidad al renderizar la aplicación es London
-let cityInput = geolocation();
-console.log(cityInput);
+let cityInput =  'Dubay';
 
 // Agregar click evento en las cuidad del panel
 cities.forEach((city) => {
@@ -51,8 +50,9 @@ function daysOfTheWeek(day, month, year) {
     return weekday[new Date(`${day}/${month}/${year}`).getDay()];
 };
 
-function fetchWeatherData() {
-    fetch(`http://api.weatherapi.com/v1/current.json?key=dfa9598b22774423b7a181741221104&q=${cityInput}&aqi=yes`)
+// Si la funcion fetchWeatherData() no recibe una latitud y longitud, usa la ciudad por defecto (cityInput = 'Dubay')
+function fetchWeatherData(currentLatLong) {
+    fetch(`https://api.weatherapi.com/v1/current.json?key=dfa9598b22774423b7a181741221104&q=${currentLatLong || cityInput}&aqi=yes`)
     .then(response => response.json())
     .then(data => {
         // console.log(data);
@@ -150,19 +150,18 @@ function fetchWeatherData() {
 
 function geolocation() {
     if(navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(position =>{
-            
-            lon = position.coords.longitude;
-            lat = position.coords.latitude;
-            
-            // const url = `https://api.weatherapi.com/v1/current.json?key=dfa9598b22774423b7a181741221104&q=${lat},${lon}&aqi=yes`
-            // console.log(lat, lon)
-            // fetchWeatherData();
-            return `${lat},${lon}`
+        navigator.geolocation.getCurrentPosition(position => {
+            // Equivalente
+            // const {latitude, longitude } = position.coords;
+            longitude = position.coords.longitude;
+            latitude = position.coords.latitude;
+            // llamo a la funcion fetchWeatherData() pasandole la latitud y longitud
+            fetchWeatherData(`${latitude},${longitude}`);
         });
     }
 }
 
-fetchWeatherData();
+// llamo a la funcion apenas cargue la pagina
+geolocation();
 
 app.style.opacity = '1';
