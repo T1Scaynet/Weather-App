@@ -141,12 +141,12 @@ function fetchWeatherData(currentLatLong) {
         }
         
         app.style.opacity = '1';
-    });
+    })
 
-//     .catch(() =>{
-    //         alert('No se encontró la ciudad');
-    //         app.style.opacity = '1';
-//     });
+    .catch(() =>{
+            alert('No se encontró la ciudad');
+            app.style.opacity = '1';
+    });
 }
 
 function geolocation() {
