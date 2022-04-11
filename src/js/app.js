@@ -12,6 +12,7 @@ const form = document.querySelector('.form');
 const search = document.querySelector('.search');
 const btn = document.querySelector('.submit');
 const cities = document.querySelectorAll('.city');
+const ubicacion = document.querySelector('.geolocalizacion');
 
 
 
@@ -163,5 +164,9 @@ function geolocation() {
 
 // llamo a la funcion apenas cargue la pagina
 geolocation();
+
+ubicacion.addEventListener('click', () => {
+    geolocation();
+});
 
 app.style.opacity = '1';
